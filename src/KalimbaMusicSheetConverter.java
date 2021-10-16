@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
+import javax.swing.WindowConstants;
 
 public class KalimbaMusicSheetConverter {
 
@@ -174,11 +175,10 @@ public class KalimbaMusicSheetConverter {
 		jtb.setBounds(600,100,300,400);
 
 		f.add(jtb);
-
+		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		f.setSize(1000,800);
 		f.setLayout(null);
 		f.setVisible(true);
-
 
 //
 //		Scanner sc = new Scanner(System.in);
