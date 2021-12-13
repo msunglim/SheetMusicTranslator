@@ -1,3 +1,5 @@
+# MusicSheetConverter
+This program scans an input music sheet and translates each note to text. If the program fails to detect notes, user can draw an black ellipse on the sheet inside of this program and run rescan.
 # KalimbaMusicSheet
 This program converts input notes from user to notes that are used for Kalimba instrument.
 Please type all notes in Korean. Any other languages are not supported in this program.
