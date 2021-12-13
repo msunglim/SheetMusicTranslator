@@ -207,13 +207,13 @@ public class Converter {
 
 	private boolean isFullNote(int x, int y) {
 		// check if its inside is black
-		for (int i = x; i < x + 3; i++) {
+		for (int i = x; i < x + 4; i++) {
 			if (!isBlack(p.getRGB(i, y))) {
 				return false;
 			}
 		}
-		for (int j = y - 1; j < y + 2; j++) {
-			if (!isBlack(p.getRGB(x + 3, j))) {
+		for (int j = y - 2; j < y + 3; j++) {
+			if (!isBlack(p.getRGB(x + 4, j))) {
 				return false;
 			}
 		}

@@ -21,8 +21,10 @@ public class MusicSheetPanel extends JPanel {
 
 	private MyScanner ms;
 
-	MusicSheetPanel() throws IOException {
+	private BufferedImage imgg;
 
+	MusicSheetPanel() throws IOException {
+		
 //		JFileChooser chooser= new JFileChooser();
 //
 //		int choice = chooser.showOpenDialog(chooser);
@@ -59,6 +61,8 @@ public class MusicSheetPanel extends JPanel {
 		sample.setPreferredSize(new Dimension(25, 25));
 		sample.setBorder(BorderFactory.createLineBorder(Color.black));
 		add(sample);
+		
+		 imgg =  new BufferedImage(800, 1000, BufferedImage.TYPE_INT_RGB);
 
 	}
 
@@ -136,18 +140,28 @@ public class MusicSheetPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
+		Graphics gCopy = imgg.getGraphics();
+	
+		drawOnGraphics(g);
+		drawOnGraphics(gCopy);
 
+	}
+	private void drawOnGraphics(Graphics g) {
 		if (picture != null) {
 
 			g.drawImage(picture, 0, 0, this);
 			g.setColor(Color.BLACK);
 			g.drawLine(0, MouseLocation.getMouseR(), picture.getWidth(), MouseLocation.getMouseR());
 			g.drawLine(MouseLocation.getMouseC(), 0, MouseLocation.getMouseC(), picture.getHeight());
-			g.fillOval(MouseLocation.getMouseC()-5,MouseLocation.getMouseR()-4,10,8);
+			g.fillOval(MouseLocation.getMouseC() - 5, MouseLocation.getMouseR() - 4, 10, 8);
 		}
 
 		validate();
 		repaint();
+	}
+
+	public BufferedImage getG() {
+		return imgg;
 
 	}
 

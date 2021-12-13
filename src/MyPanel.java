@@ -46,11 +46,22 @@ public class MyPanel extends JPanel {
 		showRGB.setBounds(0, 100, 100,100);
 		add(showRGB,BorderLayout.SOUTH);
 
+		JPanel eastPanel = new JPanel();
+		eastPanel.setLayout(new BorderLayout());
+		eastPanel.setPreferredSize(new Dimension(450, 500));
 		textArea = new LyricsPanel(mp.getScanner().getConverter().getLyrics(),mp.getScanner().getConverter().getLyricsList());
 		//scroll panel for lyrics
 		JScrollPane scroll2 = new JScrollPane(textArea);
 		scroll2.setAutoscrolls(true);
-		add(scroll2, BorderLayout.EAST);
+		
+		MagnifyingPanel mfp = new MagnifyingPanel(mp);
+		
+		eastPanel.add(scroll2,BorderLayout.NORTH);
+		eastPanel.add(mfp,BorderLayout.CENTER);
+		
+		add(eastPanel, BorderLayout.EAST);
+		
+		
 		
 		ControlPanel cp = new ControlPanel(this, mp, mp.getScanner());
 		add( cp, BorderLayout.NORTH);
