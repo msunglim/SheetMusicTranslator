@@ -33,7 +33,7 @@ public class MusicSheetPanel extends JPanel {
 //		File chosenFile = chooser.getSelectedFile();
 
 		// this is temporary image file.
-		File chosenFile = new File("musicSheet.jpg");
+		File chosenFile = new File("musicSheet1.jpg");
 		picture = ImageIO.read(chosenFile);
 
 		setLayout(null);
@@ -109,8 +109,8 @@ public class MusicSheetPanel extends JPanel {
 //		}
 		// draw the ellipse
 		for (int i = 0; i <= 360; i++) {
-			for (int j = 0; j < 6; j++) {
-				for (int k = 0; k < 5; k++) {
+			for (int j = 0; j < (SizeManager.getOvalSize()*3)/5; j++) {
+				for (int k = 0; k < (SizeManager.getOvalSize())/2; k++) {
 
 					double x, y;
 					x = j * Math.sin(Math.toRadians(i));
@@ -153,8 +153,8 @@ public class MusicSheetPanel extends JPanel {
 			g.setColor(Color.BLACK);
 			g.drawLine(0, MouseLocation.getMouseR(), picture.getWidth(), MouseLocation.getMouseR());
 			g.drawLine(MouseLocation.getMouseC(), 0, MouseLocation.getMouseC(), picture.getHeight());
-			g.fillOval(MouseLocation.getMouseC() - 5, MouseLocation.getMouseR() - 4, 10, 8);
-		}
+			g.fillOval(MouseLocation.getMouseC() - (SizeManager.getOvalSize())/2, MouseLocation.getMouseR() - ((SizeManager.getOvalSize()*4)/5)/2, SizeManager.getOvalSize(), (SizeManager.getOvalSize()*4)/5);
+			}
 
 		validate();
 		repaint();

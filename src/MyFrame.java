@@ -21,7 +21,9 @@ public class MyFrame extends JFrame{
 		setIconImage(new ImageIcon("icon.PNG").getImage());
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setSize(1400,800);
+		setLocationRelativeTo(null);
 		setVisible(true);
+		
 
 	}
 	

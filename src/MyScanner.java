@@ -4,109 +4,122 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.WindowConstants;
+
 public class MyScanner {
 
-	private int w,h;
+	private int w, h;
 	private BufferedImage pic;
 
 	private Converter converter;
 	private ArrayList<Passage> passageList;
-	private int r,c;
+	private int r, c;
+
 //
 //	private MusicSheetPanel msp;//used for click-able note-suspected area. added to here in order to pass it to converter..
 	public MyScanner(BufferedImage p, int w, int h) {
-		//System.out.println(p.getWidth());
-		this.w=w;
-		this.h=h;
-		this.pic= p;
+		// System.out.println(p.getWidth());
+		this.w = w;
+		this.h = h;
+		this.pic = p;
 		//
-		
-
+	
 		scan(pic);
-
-		converter = new Converter(p, passageList);
 		
+		converter = new Converter(p, passageList);
+
 	}
 
+	// scan the music sheet and get the darkest color. and then highlight
+	// line-suspected area
+	public void scan(BufferedImage p) {
 
-	//scan the music sheet and get the darkest color. and then highlight line-suspected area
-	public void scan( BufferedImage p) {
-	
-		
-		Set <Integer > redLine=  new HashSet<>();
-		
-		for(int r = 75; r < p.getHeight(); r++) {
+		Set<Integer> redLine = new HashSet<>();
+
+		for (int r = 75; r < p.getHeight(); r++) {
+			// minimun length of continous black dots
 			int require = 500;
-			for(int c = 0; c< p.getWidth(); c++) {
-				
-		//	System.out.println("req: "+ require);
-				//recoginze black 
-				if(p.getRGB(c,r)<=-1000000 ) {
-					require--;
-					if(require == 0) {
-						//p.setRGB(c,r,0xFF0000);
-						
-						redLine.add(r);
-						r+=2;  //the number added to r should be less than 6 but more than at least 1.
-					//	System.out.println(r);
-						continue;
+			for (int c = 0; c < p.getWidth(); c++) {
+
+				// System.out.println("req: "+ require);
+				// recoginze black
+				try {
+					int notWhiteSpace = (-1000000 + SizeManager.getBlackRecognizerHelper() / 10 >= 0) ? -1000000
+							: -1000000 + SizeManager.getBlackRecognizerHelper() / 10;
+					if (p.getRGB(c, r) <= notWhiteSpace) {
+						require--;
+						if (require == 0) {
+							// p.setRGB(c,r,0xFF0000);
+
+							redLine.add(r);
+							r += 2; // the number added to r should be less than 6 but more than at least 1.
+							// System.out.println(r);
+							continue;
+						}
 					}
+				} catch (Exception ex) {
+					JFrame f = new JFrame();
+					f.setTitle("Error message");
+					f.add(new JLabel("Error has been occured. Please restart the program"));
+					f.setSize(500,200);
+					f.setVisible(true);
+					f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+					f.setLocationRelativeTo(null);
 				}
 			}
 		}
-		
-		
-			//System.out.println("row: "+ row.toString());
-		
-	
-		//highlight all lines
-		for(int r= 0; r< redLine.size(); r++) {
-			//System.out.println(redLine.toArray()[r]);
-			for(int c=  0; c<p.getWidth(); c++) {
-				//p.setRGB(c, (int)redLine.toArray()[r],0xFF0000);
+
+		// System.out.println("row: "+ row.toString());
+
+		// highlight all lines
+		for (int r = 0; r < redLine.size(); r++) {
+			// System.out.println(redLine.toArray()[r]);
+			for (int c = 0; c < p.getWidth(); c++) {
+				// p.setRGB(c, (int)redLine.toArray()[r],0xFF0000);
 			}
 		}
-		
-		List<Integer> lineList = new ArrayList(redLine); // 
+
+		List<Integer> lineList = new ArrayList(redLine); //
 		Collections.sort(lineList);
 
-		//passageList is sorted redLine
-		 passageList = new ArrayList<>();
+		// passageList is sorted redLine
+		passageList = new ArrayList<>();
 
-		//one Passage has 5 row point 
-		//System.out.println("size: "+ lineList.size());
-		for(int i = 0; i < lineList.size()/5; i++) {
+		// one Passage has 5 row point
+		// System.out.println("size: "+ lineList.size());
+		for (int i = 0; i < lineList.size() / 5; i++) {
 			Passage pass = new Passage();
 
-			for(int j =0; j<5; j++) {
-			    
-		//		System.out.println("i:" +i + " , j: "+ j +  " 5xi + j: " + (5*i+j));
-				//if(j!=0 && (int)lineList.toArray()[j-1]+2< (int)lineList.toArray()[j]) {
-					pass.add((int)lineList.toArray()[5*i+j ]);	
-				//}
-				
+			for (int j = 0; j < 5; j++) {
+
+				// System.out.println("i:" +i + " , j: "+ j + " 5xi + j: " + (5*i+j));
+				// if(j!=0 && (int)lineList.toArray()[j-1]+2< (int)lineList.toArray()[j]) {
+				pass.add((int) lineList.toArray()[5 * i + j]);
+				// }
+
 			}
 			passageList.add(pass);
 		}
-		
+
 	}
-	
+
 //	
 	public void setImage(BufferedImage p) {
-		this.pic= p;
+		this.pic = p;
 	}
+
 	public BufferedImage getImage() {
 		return pic;
 	}
-	
+
 	public Converter getConverter() {
 		return converter;
 	}
-	
+
 }
-
-
-
 
 //
 ////with the darkest number, assume color of lines is lighter than notes. Highlight pixels which has brighter color than the darkest color by acceptable range.  
@@ -195,4 +208,3 @@ public class MyScanner {
 //		}
 //	}
 //}
-

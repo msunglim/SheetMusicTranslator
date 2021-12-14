@@ -53,12 +53,73 @@ public class ControlPanel extends JPanel {
 			}
 		});
 
-		JButton startSet = new JButton("Set");
+		JButton ibr = new JButton("Increase BlackRecognizer");
+		ibr.addActionListener(new ActionListener() {
 
-		JButton intervalSet = new JButton("Set");
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				SizeManager.setBlackRecognizerHelper(SizeManager.getBlackRecognizerHelper()+1000000);
+			}
+			
+		});
+		JButton dbr = new JButton("Decrease BlackRecognizer");
+		dbr.addActionListener(new ActionListener() {
 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				SizeManager.setBlackRecognizerHelper(SizeManager.getBlackRecognizerHelper()-1000000);
+			}
+			
+		});
+		JButton ios = new JButton("Increase OvalSize");
+		ios.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				SizeManager.setOvalSize(SizeManager.getOvalSize()+1);
+			}
+			
+		});
+		JButton dos = new JButton("Decrease OvalSize");
+		dos.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				SizeManager.setOvalSize(SizeManager.getOvalSize()-1);
+			}
+			
+		});
+		
+		JButton inr = new JButton("Increase NoteRecognizer");
+		JButton dnr = new JButton("Decrease NoteRecognizer");
+		inr.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				SizeManager.setFullNoteRecognizer(SizeManager.getFullNoteRecognizer()+1);
+			}
+			
+		});
+		dnr.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				SizeManager.setFullNoteRecognizer(SizeManager.getFullNoteRecognizer()-1);
+			}
+			
+		});
 		add(rescan);
-		add(startSet);
-		add(intervalSet);
+		add(ibr);
+		add(dbr);
+		add(ios);
+		add(dos);
+		add(inr);
+		add(dnr);
 	}
 }

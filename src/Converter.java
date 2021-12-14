@@ -35,8 +35,6 @@ public class Converter {
 
 		// removeRec(cc);
 		addToLyrics();
-		
-		
 
 	}
 
@@ -52,7 +50,7 @@ public class Converter {
 		for (int i = 0; i < lyricsList.length; i++) {
 			lyricsList[i] = "";
 		}
-		for (int c =  2; c < p.getWidth(); c++) {
+		for (int c = 2; c < p.getWidth(); c++) {
 			// we must use this
 			for (int r = 0; r < plist.size(); r++) {
 
@@ -96,23 +94,12 @@ public class Converter {
 	// return true if there are enough blacks to be regarded as a note
 	private boolean isNote(int x, int y) {
 		boolean tf = false;
-		// p.getRGB(x+1,y-2)< -1000000 && p.getRGB(x+1,y+2)< -1000000 &&
-		// p.getRGB(x+3,y+1)< -1000000
 
-//		if (isBlack(p.getRGB(x + 1, y - 2))&& isBlack(p.getRGB(x + 1, y + 2))
-//				&& isBlack(p.getRGB(x + 3, y + 1))) {
-//			tf = true;
-//		}
 		// x+4 should be smaller than the width of sheet
 		if (x + 10 < p.getWidth() && y - 2 > 0 && y + 2 < p.getHeight()) {
 
-			if (isFullNote(x, y) 
-					//|| isEmptyNote(x, y)
-					) {
-//				p.setRGB(x , y, 0x00FFFF);
-//				p.setRGB(x+7 , y, 0x00FFFF);
-//				p.setRGB(x+3 , y+2, 0x00FFFF);
-//				p.setRGB(x+3 , y-2, 0x00FFFF);
+			if (isFullNote(x, y)) {
+
 				tf = true;
 			}
 			if (tf) {
@@ -131,120 +118,29 @@ public class Converter {
 		}
 	}
 
-	private boolean isEmptyNote(int x, int y) {
-		boolean req = isBlack(p.getRGB(x + 7, y)) && isBlack(p.getRGB(x, y)) && isBlack(p.getRGB(x + 2, y - 2))
-				&& isBlack(p.getRGB(x + 4, y + 2))
-
-				&& !isBlack(p.getRGB(x, y - 2));
-		if (!req) {
-			return false;
-		} else {
-			boolean tf = false;
-			for (int j = x - 2; j < x + 2; j++) {
-				boolean blackline = true;
-				for (int i = y+2; i < y + 15; i++) {
-					if (!isBlack(p.getRGB(j, i))) {
-						blackline = false;
-						System.out.println("not black:"+x+","+y +" j:"+j +" i:"+i+", color:"+p.getRGB(j,i));
-						//break;
-					}else {
-						System.out.println("black:"+x+","+y +" j:"+j +" i:"+i+", color:"+p.getRGB(j,i));
-					}
-				}
-				if (blackline) {
-					tf = true;
-					break;
-				}
-			}
-			boolean tf2 = false;
-
-			for (int j = x + 7; j < x + 11; j++) {
-				boolean blackline = true;
-				for (int i = y-1; i > y - 15; i--) {
-//				p.setRGB(j,i, 0x00FF00);
-					if (!isBlack(p.getRGB(j, i))) {
-						blackline = false;
-//						System.out.println("not black:"+x+","+y +" j:"+j +" i:"+i+", color:"+p.getRGB(j,i));
-						break;
-					}else {
-//						System.out.println("black:"+x+","+y +" j:"+j +" i:"+i+", color:"+p.getRGB(j,i));
-						
-					}
-				}
-				if (blackline) {
-					tf2 = true;
-					break;
-				}
-			}
-			// boolean tf3 =tf2;
-			boolean tf3 = tf ^ tf2;
-			if (tf) {
-				for (int i = y; i < y + 15; i++) {
-					p.setRGB(x - 1, i, 0x00aa00);
-				}
-			}
-			if (tf2) {
-				for (int i = y; i > y - 15; i--) {
-					p.setRGB(x + 8, i, 0xaa00aa);
-				}
-			}
-			return req && tf3;
-		}
-// isBlack(p.getRGB(x + 7, y))
-//		&& isBlack(p.getRGB(x, y)) 
-//		&& isBlack(p.getRGB(x +2, y-2)) 
-//		&& isBlack(p.getRGB(x +4, y+2))
-//		&& !isBlack(p.getRGB(x +3, y-1))
-//		&& (!isBlack(p.getRGB(x +4, y+1)) || !isBlack(p.getRGB(x +1, y)))
-//		
-
-	}
-
-	private boolean isBlack(int color) {
-		return color < -10000000 && color > -18000000;
-	//6513500 for empty note										 
-	}
-
 	private boolean isFullNote(int x, int y) {
 		// check if its inside is black
-		for (int i = x; i < x + 4; i++) {
+		for (int i = x; i < x + 4 + SizeManager.getFullNoteRecognizer(); i++) {
 			if (!isBlack(p.getRGB(i, y))) {
 				return false;
 			}
 		}
-		for (int j = y - 2; j < y + 3; j++) {
-			if (!isBlack(p.getRGB(x + 4, j))) {
+		for (int j = y - 2 - SizeManager.getFullNoteRecognizer(); j < y + 3
+				+ SizeManager.getFullNoteRecognizer(); j++) {
+			if (!isBlack(p.getRGB(x + 4 + SizeManager.getFullNoteRecognizer(), j))) {
 				return false;
 			}
 		}
-		return (isBlack(p.getRGB(x + 1, y - 1)) && isBlack(p.getRGB(x + 6, y - 1)) && isBlack(p.getRGB(x + 1, y + 1))
-				&& isBlack(p.getRGB(x, y)));
+		return (isBlack(p.getRGB(x + 1, y - 1 - SizeManager.getFullNoteRecognizer()))
+				&& isBlack(p.getRGB(x + 6 + SizeManager.getFullNoteRecognizer(),
+						y - 1 - SizeManager.getFullNoteRecognizer()))
+				&& isBlack(p.getRGB(x + 1, y + 1 + SizeManager.getFullNoteRecognizer())) && isBlack(p.getRGB(x, y)));
 	}
 
-	// remove rectangle connecting notes one another
-	private void removeRec(int cc) {
-		for (int c = cc; c < p.getWidth(); c += 2) {
-			for (int r = 0; r < plist.size(); r++) {
-				for (int k = 0; k < plist.get(r).getSize(); k++) {
-					//
-					if (p.getRGB(c, plist.get(r).getRows()[k] + 2) < -1000000
-							&& p.getRGB(c, plist.get(r).getRows()[k] + 5) < -1000000) {
-						if (p.getRGB(c + 8, plist.get(r).getRows()[k] + 2) < -1000000
-								&& p.getRGB(c + 4, plist.get(r).getRows()[k] + 2) < -1000000) {
-
-							for (int w = plist.get(r).getRows()[k] + 2; w < (plist.get(r).getRows()[k] + 2) + 6; w++) {
-								for (int q = c; q < c + 16; q++) {
-									p.setRGB(q, w, -1);
-
-								}
-							}
-
-						}
-					}
-				}
-			}
-		}
-
+	private boolean isBlack(int color) {
+		return color < -10000000 + SizeManager.getBlackRecognizerHelper()
+				&& color > -18000000 - SizeManager.getBlackRecognizerHelper();
+		// 6513500 for empty note
 	}
 
 	public String getLyrics() {
@@ -296,6 +192,101 @@ public class Converter {
 //		return -1;
 //	} else {
 //		return 0;
+//	}
+//
+//}
+//
+//private boolean isEmptyNote(int x, int y) {
+//	boolean req = isBlack(p.getRGB(x + 7, y)) && isBlack(p.getRGB(x, y)) && isBlack(p.getRGB(x + 2, y - 2))
+//			&& isBlack(p.getRGB(x + 4, y + 2))
+//
+//			&& !isBlack(p.getRGB(x, y - 2));
+//	if (!req) {
+//		return false;
+//	} else {
+//		boolean tf = false;
+//		for (int j = x - 2; j < x + 2; j++) {
+//			boolean blackline = true;
+//			for (int i = y+2; i < y + 15; i++) {
+//				if (!isBlack(p.getRGB(j, i))) {
+//					blackline = false;
+//					System.out.println("not black:"+x+","+y +" j:"+j +" i:"+i+", color:"+p.getRGB(j,i));
+//					//break;
+//				}else {
+//					System.out.println("black:"+x+","+y +" j:"+j +" i:"+i+", color:"+p.getRGB(j,i));
+//				}
+//			}
+//			if (blackline) {
+//				tf = true;
+//				break;
+//			}
+//		}
+//		boolean tf2 = false;
+//
+//		for (int j = x + 7; j < x + 11; j++) {
+//			boolean blackline = true;
+//			for (int i = y-1; i > y - 15; i--) {
+////			p.setRGB(j,i, 0x00FF00);
+//				if (!isBlack(p.getRGB(j, i))) {
+//					blackline = false;
+////					System.out.println("not black:"+x+","+y +" j:"+j +" i:"+i+", color:"+p.getRGB(j,i));
+//					break;
+//				}else {
+////					System.out.println("black:"+x+","+y +" j:"+j +" i:"+i+", color:"+p.getRGB(j,i));
+//					
+//				}
+//			}
+//			if (blackline) {
+//				tf2 = true;
+//				break;
+//			}
+//		}
+//		// boolean tf3 =tf2;
+//		boolean tf3 = tf ^ tf2;
+//		if (tf) {
+//			for (int i = y; i < y + 15; i++) {
+//				p.setRGB(x - 1, i, 0x00aa00);
+//			}
+//		}
+//		if (tf2) {
+//			for (int i = y; i > y - 15; i--) {
+//				p.setRGB(x + 8, i, 0xaa00aa);
+//			}
+//		}
+//		return req && tf3;
+//	}
+//isBlack(p.getRGB(x + 7, y))
+//	&& isBlack(p.getRGB(x, y)) 
+//	&& isBlack(p.getRGB(x +2, y-2)) 
+//	&& isBlack(p.getRGB(x +4, y+2))
+//	&& !isBlack(p.getRGB(x +3, y-1))
+//	&& (!isBlack(p.getRGB(x +4, y+1)) || !isBlack(p.getRGB(x +1, y)))
+//	
+
+//}
+
+// remove rectangle connecting notes one another
+//private void removeRec(int cc) {
+//	for (int c = cc; c < p.getWidth(); c += 2) {
+//		for (int r = 0; r < plist.size(); r++) {
+//			for (int k = 0; k < plist.get(r).getSize(); k++) {
+//				//
+//				if (p.getRGB(c, plist.get(r).getRows()[k] + 2) < -1000000
+//						&& p.getRGB(c, plist.get(r).getRows()[k] + 5) < -1000000) {
+//					if (p.getRGB(c + 8, plist.get(r).getRows()[k] + 2) < -1000000
+//							&& p.getRGB(c + 4, plist.get(r).getRows()[k] + 2) < -1000000) {
+//
+//						for (int w = plist.get(r).getRows()[k] + 2; w < (plist.get(r).getRows()[k] + 2) + 6; w++) {
+//							for (int q = c; q < c + 16; q++) {
+//								p.setRGB(q, w, -1);
+//
+//							}
+//						}
+//
+//					}
+//				}
+//			}
+//		}
 //	}
 //
 //}
