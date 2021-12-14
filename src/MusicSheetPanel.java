@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
 public class MusicSheetPanel extends JPanel {
@@ -28,15 +29,15 @@ public class MusicSheetPanel extends JPanel {
 
 	MusicSheetPanel() throws IOException {
 		
-//		JFileChooser chooser= new JFileChooser();
-//
-//		int choice = chooser.showOpenDialog(chooser);
-//
-//		if (choice != JFileChooser.APPROVE_OPTION) return;
-//		File chosenFile = chooser.getSelectedFile();
+		JFileChooser chooser= new JFileChooser();
+
+		int choice = chooser.showOpenDialog(chooser);
+
+		if (choice != JFileChooser.APPROVE_OPTION) return;
+		File chosenFile = chooser.getSelectedFile();
 
 		// this is temporary image file.
-		File chosenFile = new File("musicSheet1.jpg");
+//		File chosenFile = new File("musicSheet1.jpg");
 		picture = ImageIO.read(chosenFile);
 
 		

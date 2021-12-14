@@ -14,7 +14,7 @@ public class LyricsPanel extends JTextArea {
 
 	LyricsPanel(String s, String[] slist) {
 		super(s);
-		this.s = s.split("/");
+		this.s = s.split(" ");
 		setPreferredSize(new Dimension(450, 300));
 		hl = this.getHighlighter();
 		p = new DefaultHighlighter.DefaultHighlightPainter(Color.red);
@@ -27,7 +27,7 @@ public class LyricsPanel extends JTextArea {
 
 		for (int j = 0; j < r; j++) {
 			pos += slist[j].length() + 1;
-			index += slist[j].split("/").length;
+			index += slist[j].split(" ").length;
 		}
 
 		// index-=r;

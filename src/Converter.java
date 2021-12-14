@@ -62,12 +62,12 @@ public class Converter {
 
 					}
 					if (isNote(c + rec[r], passage.getRows()[k])) {
-						lyricsList[r] += notes[k * 2 + 1] + "/";
+						lyricsList[r] += notes[k * 2 + 1] + " ";
 						addToLyrics(c, r, k, indexOfNote, rec, notes, h * passage.getRows()[k] / p.getHeight());
 					}
 					if (isNote(c + rec[r], passage.getRows()[k] - 3)) {
 
-						lyricsList[r] += notes[k * 2] + "/";
+						lyricsList[r] += notes[k * 2] + " ";
 						addToLyrics(c, r, k, indexOfNote, rec, notes, h * passage.getRows()[k] / p.getHeight() - 3);
 
 					}

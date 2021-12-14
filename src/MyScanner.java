@@ -55,7 +55,7 @@ public class MyScanner {
 							// p.setRGB(c,r,0xFF0000);
 
 							redLine.add(r);
-							r += 2; // the number added to r should be less than 6 but more than at least 1.
+							r += 3; // the number added to r should be less than 6 but more than at least 1.
 							// System.out.println(r);
 							continue;
 						}
@@ -78,7 +78,7 @@ public class MyScanner {
 		for (int r = 0; r < redLine.size(); r++) {
 			// System.out.println(redLine.toArray()[r]);
 			for (int c = 0; c < p.getWidth(); c++) {
-				// p.setRGB(c, (int)redLine.toArray()[r],0xFF0000);
+			//	 p.setRGB(c, (int)redLine.toArray()[r],0xFFFF0000);
 			}
 		}
 

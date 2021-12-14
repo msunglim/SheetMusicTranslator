@@ -72,7 +72,7 @@ public class MyPanel extends JPanel {
 		textArea.setText(s);
 	}
 	public static void showRGBatCursor(int rgb, int x, int y) {
-		showRGB.setText("RGB: "+rgb +"   x: " + x +"    y: "+ y);
+		showRGB.setText("RGB: "+rgb +"   x: " + x +"    y: "+ y +"   검은색인정계수:"+ SizeManager.getBlackRecognizerHelper()+ "      음표인정계수:"+ SizeManager.getFullNoteRecognizer()+ "       팬크기:"+SizeManager.getOvalSize());
 
 	}
 
