@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -22,6 +23,8 @@ public class MusicSheetPanel extends JPanel {
 	private MyScanner ms;
 
 	private BufferedImage imgg;
+	
+	private PictureHistory ph;
 
 	MusicSheetPanel() throws IOException {
 		
@@ -36,6 +39,7 @@ public class MusicSheetPanel extends JPanel {
 		File chosenFile = new File("musicSheet1.jpg");
 		picture = ImageIO.read(chosenFile);
 
+		
 		setLayout(null);
 
 		setImage(picture, 800, 1000);
@@ -51,6 +55,9 @@ public class MusicSheetPanel extends JPanel {
 		addMouseListener(ml);
 		addMouseMotionListener(ml);
 
+
+		ph = new PictureHistory(this,picture);
+		
 		// set vertical scroll bar length as much as music sheet's height
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setPreferredSize(new Dimension(300, picture.getHeight()));
@@ -65,7 +72,9 @@ public class MusicSheetPanel extends JPanel {
 		 imgg =  new BufferedImage(800, 1000, BufferedImage.TYPE_INT_RGB);
 
 	}
-
+	public PictureHistory getPh() {
+		return ph;
+	}
 	public void setPicture(BufferedImage p) {
 		picture = p;
 	}
@@ -84,6 +93,7 @@ public class MusicSheetPanel extends JPanel {
 
 	}
 
+	
 	// set buffered Image and resize. also set JLabel img
 	public void setImage(BufferedImage img, int newW, int newH) {
 		Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
@@ -148,7 +158,7 @@ public class MusicSheetPanel extends JPanel {
 	}
 	private void drawOnGraphics(Graphics g) {
 		if (picture != null) {
-
+			picture = ph.getCurr();
 			g.drawImage(picture, 0, 0, this);
 			g.setColor(Color.BLACK);
 			g.drawLine(0, MouseLocation.getMouseR(), picture.getWidth(), MouseLocation.getMouseR());

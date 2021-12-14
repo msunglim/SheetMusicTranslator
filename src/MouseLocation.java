@@ -25,7 +25,6 @@ public class MouseLocation implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
 		// TODO Auto-generated method stub
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			ml.draw(e.getX(), e.getY(), 0xFF000000);
@@ -39,6 +38,8 @@ public class MouseLocation implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		ml.getPh().setCurr(ml.getImage());
+		
 		mouseR = e.getY();
 		mouseC = e.getX();
 		if (e.getButton() == MouseEvent.BUTTON1) {
@@ -94,7 +95,7 @@ public class MouseLocation implements MouseListener, MouseMotionListener {
 			// ", imgH:"+img.getHeight());
 			// you are dividing with the same number..
 			// coordinate for image? no panel
-
+			
 			r = (e.getY() * img.getHeight()) / ml.getImage().getHeight();
 			c = (img.getWidth() * e.getX()) / ml.getImage().getWidth();
 

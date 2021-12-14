@@ -23,7 +23,7 @@ public class Converter {
 		this.p = p;
 		this.plist = plist;
 		this.msp = msp;
-
+		
 		lyrics = "";
 		jp = new JPanel();
 		w = 800;
