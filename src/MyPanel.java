@@ -19,7 +19,7 @@ public class MyPanel extends JPanel {
 		super();
 
 		setLayout(new BorderLayout());
-		setPreferredSize(new Dimension(800, 1000));
+		//setPreferredSize(new Dimension(1000, 1000));
 
 
 		mp = new MusicSheetPanel();

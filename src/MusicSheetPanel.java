@@ -24,23 +24,25 @@ public class MusicSheetPanel extends JPanel {
 	private MyScanner ms;
 
 	private BufferedImage imgg;
-	
+
 	private PictureHistory ph;
 
+	private boolean showredline;
+
 	MusicSheetPanel() throws IOException {
-		
-		JFileChooser chooser= new JFileChooser();
+
+		JFileChooser chooser = new JFileChooser();
 
 		int choice = chooser.showOpenDialog(chooser);
 
-		if (choice != JFileChooser.APPROVE_OPTION) return;
+		if (choice != JFileChooser.APPROVE_OPTION)
+			return;
 		File chosenFile = chooser.getSelectedFile();
 
 		// this is temporary image file.
 //		File chosenFile = new File("musicSheet1.jpg");
 		picture = ImageIO.read(chosenFile);
 
-		
 		setLayout(null);
 
 		setImage(picture, 800, 1000);
@@ -56,9 +58,8 @@ public class MusicSheetPanel extends JPanel {
 		addMouseListener(ml);
 		addMouseMotionListener(ml);
 
+		ph = new PictureHistory(this, picture);
 
-		ph = new PictureHistory(this,picture);
-		
 		// set vertical scroll bar length as much as music sheet's height
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setPreferredSize(new Dimension(300, picture.getHeight()));
@@ -69,13 +70,15 @@ public class MusicSheetPanel extends JPanel {
 		sample.setPreferredSize(new Dimension(25, 25));
 		sample.setBorder(BorderFactory.createLineBorder(Color.black));
 		add(sample);
-		
-		 imgg =  new BufferedImage(800, 1000, BufferedImage.TYPE_INT_RGB);
 
+		imgg = new BufferedImage(800, 1000, BufferedImage.TYPE_INT_RGB);
+		showredline = false;
 	}
+
 	public PictureHistory getPh() {
 		return ph;
 	}
+
 	public void setPicture(BufferedImage p) {
 		picture = p;
 	}
@@ -94,7 +97,6 @@ public class MusicSheetPanel extends JPanel {
 
 	}
 
-	
 	// set buffered Image and resize. also set JLabel img
 	public void setImage(BufferedImage img, int newW, int newH) {
 		Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
@@ -120,8 +122,8 @@ public class MusicSheetPanel extends JPanel {
 //		}
 		// draw the ellipse
 		for (int i = 0; i <= 360; i++) {
-			for (int j = 0; j < (SizeManager.getOvalSize()*3)/5; j++) {
-				for (int k = 0; k < (SizeManager.getOvalSize())/2; k++) {
+			for (int j = 0; j < (SizeManager.getOvalSize() * 3) / 5; j++) {
+				for (int k = 0; k < (SizeManager.getOvalSize()) / 2; k++) {
 
 					double x, y;
 					x = j * Math.sin(Math.toRadians(i));
@@ -152,11 +154,12 @@ public class MusicSheetPanel extends JPanel {
 
 		super.paintComponent(g);
 		Graphics gCopy = imgg.getGraphics();
-	
+
 		drawOnGraphics(g);
 		drawOnGraphics(gCopy);
 
 	}
+
 	private void drawOnGraphics(Graphics g) {
 		if (picture != null) {
 			picture = ph.getCurr();
@@ -164,18 +167,45 @@ public class MusicSheetPanel extends JPanel {
 			g.setColor(Color.BLACK);
 			g.drawLine(0, MouseLocation.getMouseR(), picture.getWidth(), MouseLocation.getMouseR());
 			g.drawLine(MouseLocation.getMouseC(), 0, MouseLocation.getMouseC(), picture.getHeight());
-			g.fillOval(MouseLocation.getMouseC() - (SizeManager.getOvalSize())/2, MouseLocation.getMouseR() - ((SizeManager.getOvalSize()*4)/5)/2, SizeManager.getOvalSize(), (SizeManager.getOvalSize()*4)/5);
+			g.fillOval(MouseLocation.getMouseC() - (SizeManager.getOvalSize()) / 2,
+					MouseLocation.getMouseR() - ((SizeManager.getOvalSize() * 4) / 5) / 2, SizeManager.getOvalSize(),
+					(SizeManager.getOvalSize() * 4) / 5);
+
+			if (showredline) {
+				showRedLine(g);
 			}
+		}
 
 		validate();
 		repaint();
+	}
+
+	public boolean getShowRedLine() {
+		return showredline;
+	}
+
+	public void setShowRedLine(boolean tf) {
+		showredline = tf;
+	}
+
+	private void showRedLine(Graphics g) {
+		for (Passage p : ms.getPassageList()) {
+			for (int r : p.getRows()) {
+				g.setColor(Color.RED);
+				g.drawLine(0, r, picture.getWidth(), r);
+			}
+		}
+		
+
 	}
 
 	public BufferedImage getG() {
 		return imgg;
 
 	}
-
+	public void setScanner(MyScanner sc) {
+		ms = sc;
+	}
 	public MyScanner getScanner() {
 		return ms;
 	}

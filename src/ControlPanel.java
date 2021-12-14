@@ -44,7 +44,7 @@ public class ControlPanel extends JPanel {
 					// BufferedImage newImage = sc.getImage();
 
 					MyScanner newScanner = new MyScanner(newPicture, newPicture.getWidth(), newPicture.getHeight());
-
+					mp.setScanner(newScanner);
 					BufferedImage newImage = newScanner.getImage();
 
 					mp.getMouseLocation().setImage(newImage);
@@ -138,6 +138,17 @@ public class ControlPanel extends JPanel {
 
 		});
 		
+		JButton showred = new JButton("Show RedLine");
+		showred.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				mp.setShowRedLine(!mp.getShowRedLine());
+			}
+
+		});
+		
 		JButton help = new JButton("?");
 
 		String howtouse = "\r\n"
@@ -184,6 +195,7 @@ public class ControlPanel extends JPanel {
 		add(dos);
 		add(inr);
 		add(dnr);
+		add(showred);
 		add(help);
 	}
 }

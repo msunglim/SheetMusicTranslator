@@ -17,6 +17,7 @@ public class MyScanner {
 	private Converter converter;
 	private ArrayList<Passage> passageList;
 	private int r, c;
+	private Set<Integer> redLine;
 
 //
 //	private MusicSheetPanel msp;//used for click-able note-suspected area. added to here in order to pass it to converter..
@@ -37,7 +38,7 @@ public class MyScanner {
 	// line-suspected area
 	public void scan(BufferedImage p) {
 
-		Set<Integer> redLine = new HashSet<>();
+		redLine = new HashSet<>();
 
 		for (int r = 75; r < p.getHeight(); r++) {
 			// minimun length of continous black dots
@@ -55,8 +56,9 @@ public class MyScanner {
 							// p.setRGB(c,r,0xFF0000);
 
 							redLine.add(r);
+				//			 System.out.println(r);
 							r += 3; // the number added to r should be less than 6 but more than at least 1.
-							// System.out.println(r);
+							
 							continue;
 						}
 					}
@@ -72,15 +74,15 @@ public class MyScanner {
 			}
 		}
 
-		// System.out.println("row: "+ row.toString());
+		// System.out.println("-----");
 
 		// highlight all lines
-		for (int r = 0; r < redLine.size(); r++) {
-			// System.out.println(redLine.toArray()[r]);
-			for (int c = 0; c < p.getWidth(); c++) {
-			//	 p.setRGB(c, (int)redLine.toArray()[r],0xFFFF0000);
-			}
-		}
+//		for (int r = 0; r < redLine.size(); r++) {
+//			// System.out.println(redLine.toArray()[r]);
+//			for (int c = 0; c < p.getWidth(); c++) {
+//			//	 p.setRGB(c, (int)redLine.toArray()[r],0xFFFF0000);
+//			}
+//		}
 
 		List<Integer> lineList = new ArrayList(redLine); //
 		Collections.sort(lineList);
@@ -98,12 +100,17 @@ public class MyScanner {
 				// System.out.println("i:" +i + " , j: "+ j + " 5xi + j: " + (5*i+j));
 				// if(j!=0 && (int)lineList.toArray()[j-1]+2< (int)lineList.toArray()[j]) {
 				pass.add((int) lineList.toArray()[5 * i + j]);
+			//	System.out.println((int) lineList.toArray()[5 * i + j]);
 				// }
 
 			}
 			passageList.add(pass);
 		}
 
+	}
+
+	public  ArrayList<Passage> getPassageList(){
+		return passageList;
 	}
 
 //	
