@@ -5,12 +5,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
 public class MusicSheetPanel extends JPanel {
@@ -30,25 +27,27 @@ public class MusicSheetPanel extends JPanel {
 	private boolean showredline;
 
 	MusicSheetPanel() throws IOException {
-
-		JFileChooser chooser = new JFileChooser();
-
-		int choice = chooser.showOpenDialog(chooser);
-
-		if (choice != JFileChooser.APPROVE_OPTION)
-			return;
-		File chosenFile = chooser.getSelectedFile();
-
-		// this is temporary image file.
-//		File chosenFile = new File("musicSheet1.jpg");
-		picture = ImageIO.read(chosenFile);
-
 		setLayout(null);
-
+	
+//		File chosenFile1 = new File("musicSheet3.jpg");
+//		BufferedImage picture = ImageIO.read(chosenFile1);
+//		start(picture);
+//		JFileChooser chooser = new JFileChooser();
+//
+//		int choice = chooser.showOpenDialog(chooser);
+//
+//		if (choice != JFileChooser.APPROVE_OPTION)
+//			return;
+//		File chosenFile = chooser.getSelectedFile();
+//	
+//		picture = ImageIO.read(chosenFile);
+		
+	}
+	public void start(BufferedImage picture) {
 		setImage(picture, 800, 1000);
 
 		ms = new MyScanner(picture, picture.getWidth(), picture.getHeight());
-
+	
 		JPanel cp = ms.getConverter().getConvertPanel();
 		cp.setBounds(0, 0, 800, 1000);
 		add(cp);
@@ -114,12 +113,7 @@ public class MusicSheetPanel extends JPanel {
 	}
 
 	public void draw(int px, int py, int color) {
-//		for (int c = x - 10; c < x + 10; c++) {
-//			for (int r = y - 10; r < y + 10; r++) {
-//				picture.setRGB(c, r, color);
-//
-//			}
-//		}
+
 		// draw the ellipse
 		for (int i = 0; i <= 360; i++) {
 			for (int j = 0; j < (SizeManager.getOvalSize() * 3) / 5; j++) {
@@ -153,11 +147,12 @@ public class MusicSheetPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
+		if(imgg!=null) {
 		Graphics gCopy = imgg.getGraphics();
 
 		drawOnGraphics(g);
 		drawOnGraphics(gCopy);
-
+		}
 	}
 
 	private void drawOnGraphics(Graphics g) {
@@ -195,7 +190,6 @@ public class MusicSheetPanel extends JPanel {
 				g.drawLine(0, r, picture.getWidth(), r);
 			}
 		}
-		
 
 	}
 
@@ -203,9 +197,11 @@ public class MusicSheetPanel extends JPanel {
 		return imgg;
 
 	}
+
 	public void setScanner(MyScanner sc) {
 		ms = sc;
 	}
+
 	public MyScanner getScanner() {
 		return ms;
 	}

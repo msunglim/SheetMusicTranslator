@@ -12,6 +12,11 @@ public class LyricsPanel extends JTextArea {
 	static String[] slist;
 	static String[] s;
 
+	LyricsPanel(){
+		super("");
+		setPreferredSize(new Dimension(450, 300));
+		
+	}
 	LyricsPanel(String s, String[] slist) {
 		super(s);
 		this.s = s.split(" ");
